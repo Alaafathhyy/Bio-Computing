@@ -1,0 +1,20 @@
+from Bio.Emboss.Applications import NeedleCommandline
+from Bio import AlignIO, SeqIO
+from Bio import pairwise2
+from Bio.Seq import Seq
+
+
+def fun1():
+   result = NeedleCommandline(asequence="alpha.faa", bsequence="beta.faa",gapopen=10, gapextend=0.5, outfile="output.txt")
+   print(result.outfile)
+   align=AlignIO.read("output.txt","emboss")
+   print(align)
+
+
+def fun2():
+   seq1=Seq("MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH")
+   seq2=Seq("MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYRMVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR")
+   align=pairwise2.align.globalxx(seq1,seq2)
+   print(align)
+fun1()
+fun2()
