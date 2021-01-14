@@ -1,20 +1,36 @@
-from Bio.Emboss.Applications import NeedleCommandline
-from Bio import AlignIO, SeqIO
-from Bio import pairwise2
-from Bio.Seq import Seq
+table = {
+    'AUA': 'I', 'AUC': 'I', 'AUU': 'I', 'AUG': 'M',
+    'ACA': 'T', 'ACC': 'T', 'ACG': 'T', 'ACU': 'T',
+    'AAC': 'N', 'AAU': 'N', 'AAA': 'K', 'AAG': 'K',
+    'AGC': 'S', 'AGU': 'S', 'AGA': 'R', 'AGG': 'R',
+    'CUA': 'L', 'CUC': 'L', 'CUG': 'L', 'CUU': 'L',
+    'CCA': 'P', 'CCC': 'P', 'CCG': 'P', 'CCU': 'P',
+    'CAC': 'H', 'CAU': 'H', 'CAA': 'Q', 'CAG': 'Q',
+    'CGA': 'R', 'CGC': 'R', 'CGG': 'R', 'CGU': 'R',
+    'GUA': 'V', 'GUC': 'V', 'GUG': 'V', 'GUU': 'V',
+    'GCA': 'A', 'GCC': 'A', 'GCG': 'A', 'GCU': 'A',
+    'GAC': 'D', 'GAU': 'D', 'GAA': 'E', 'GAG': 'E',
+    'GGA': 'G', 'GGC': 'G', 'GGG': 'G', 'GGU': 'G',
+    'UCA': 'S', 'UCC': 'S', 'UCG': 'S', 'UCU': 'S',
+    'UUC': 'F', 'UUU': 'F', 'UUA': 'L', 'UUG': 'L',
+    'UAC': 'Y', 'UAU': 'Y', 'UAA': '_', 'UAG': '_',
+    'UGC': 'C', 'UGU': 'C', 'UGA': '_', 'UGG': 'W',
+}
 
+SeqDna = input("enter you DNA sequence : ")
+SeqMrna = ""
+SeqProtien = ""
+for i in range(len(SeqDna)):
+    if (SeqDna[i] == 'T'):
+        SeqMrna += 'U'
+    else:
+        SeqMrna += SeqDna[i]
 
-def fun1():
-   result = NeedleCommandline(asequence="alpha.faa", bsequence="beta.faa",gapopen=10, gapextend=0.5, outfile="output.txt")
-   print(result.outfile)
-   align=AlignIO.read("output.txt","emboss")
-   print(align)
+for i in range(0, len(SeqMrna), 3):
+    codon = SeqMrna[i:i + 3]
+    for x in table.keys():
+        if (codon == x):
+            SeqProtien += table[codon]
 
-
-def fun2():
-   seq1=Seq("MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH")
-   seq2=Seq("MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYRMVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR")
-   align=pairwise2.align.globalxx(seq1,seq2)
-   print(align)
-fun1()
-fun2()
+print("Your mRNA sequence :", SeqDna)
+print("Your Protein : ", SeqProtien)
